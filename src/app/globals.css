@@ -1,0 +1,515 @@
+@import "tailwindcss";
+
+:root {
+  /* Skywatch Color Palette */
+  --space-navy: #0a0e1a;
+  --nasa-blue: #0B3D91;
+  --retro-orange: #FF6B35;
+  --mission-green: #00FF41;
+  --amber: #FFB800;
+  --off-white: #E8E8E8;
+  --panel-bg: rgba(11, 61, 145, 0.15);
+  --panel-border: rgba(11, 61, 145, 0.4);
+
+  /* Theme variables */
+  --background: var(--space-navy);
+  --foreground: var(--off-white);
+
+  /* Accessibility variables */
+  --focus-color: #0B3D91;
+  --focus-outline-width: 3px;
+}
+
+/* High contrast mode */
+body.high-contrast {
+  --background: #000000;
+  --foreground: #FFFFFF;
+  --focus-color: #FFFF00;
+  --retro-orange: #FFFF00;
+  --nasa-blue: #00FFFF;
+  --mission-green: #00FF00;
+  --amber: #FFFF00;
+  --off-white: #FFFFFF;
+  --space-navy: #000000;
+  --panel-bg: rgba(255, 255, 255, 0.1);
+  --panel-border: rgba(255, 255, 255, 0.5);
+}
+
+body.high-contrast .retro-panel {
+  background: #000000;
+  border: 2px solid #FFFFFF;
+}
+
+body.high-contrast .retro-panel-orange {
+  background: #000000;
+  border: 2px solid #FFFF00;
+}
+
+/* High contrast focus states */
+body.high-contrast *:focus-visible {
+  outline: 4px solid #FFFF00 !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 8px rgba(255, 255, 0, 0.5) !important;
+}
+
+/* High contrast - ensure all text meets 7:1 ratio */
+body.high-contrast .text-off-white\/40,
+body.high-contrast .text-off-white\/50,
+body.high-contrast .text-off-white\/60,
+body.high-contrast .text-off-white\/70 {
+  color: #FFFFFF !important;
+  opacity: 1 !important;
+}
+
+/* Focus visible styles for accessibility */
+*:focus-visible {
+  outline: var(--focus-outline-width) solid var(--focus-color);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px rgba(11, 61, 145, 0.3);
+}
+
+/* Enhanced focus for buttons and interactive elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+[role="button"]:focus-visible {
+  outline: 3px solid #FFB800;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px rgba(255, 184, 0, 0.3);
+}
+
+/* Prefers more contrast - boost opacity for muted text */
+@media (prefers-contrast: more) {
+  .text-off-white\/40,
+  .text-off-white\/50 {
+    opacity: 0.8 !important;
+  }
+  .text-off-white\/60 {
+    opacity: 0.9 !important;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Reduced motion class for programmatic control */
+body.reduced-motion *,
+body.reduced-motion *::before,
+body.reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Font size adjustments */
+body.font-large {
+  font-size: 1.125rem;
+}
+
+body.font-large .text-xs {
+  font-size: 0.875rem;
+}
+
+body.font-large .text-sm {
+  font-size: 1rem;
+}
+
+body.font-x-large {
+  font-size: 1.25rem;
+}
+
+body.font-x-large .text-xs {
+  font-size: 1rem;
+}
+
+body.font-x-large .text-sm {
+  font-size: 1.125rem;
+}
+
+/* Skip to main content link for screen readers */
+.skip-to-main {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 9999;
+  padding: 1rem;
+  background: var(--nasa-blue);
+  color: white;
+  text-decoration: none;
+}
+
+.skip-to-main:focus {
+  top: 0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-space-navy: #0a0e1a;
+  --color-nasa-blue: #0B3D91;
+  --color-retro-orange: #FF6B35;
+  --color-mission-green: #00FF41;
+  --color-amber: #FFB800;
+  --color-off-white: #E8E8E8;
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-space-mono);
+  --font-display: var(--font-orbitron);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Scanline overlay effect */
+.scanlines {
+  position: relative;
+}
+
+.scanlines::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* CRT glow effect */
+.crt-glow {
+  text-shadow:
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 20px currentColor;
+}
+
+.crt-glow-subtle {
+  text-shadow:
+    0 0 2px currentColor,
+    0 0 5px currentColor;
+}
+
+/* LED text effect */
+.led-text {
+  font-family: var(--font-space-mono), monospace;
+  text-shadow:
+    0 0 5px currentColor,
+    0 0 10px currentColor;
+  letter-spacing: 0.05em;
+}
+
+/* Retro panel styling */
+.retro-panel {
+  background: linear-gradient(
+    135deg,
+    rgba(11, 61, 145, 0.2) 0%,
+    rgba(10, 14, 26, 0.9) 100%
+  );
+  border: 1px solid rgba(11, 61, 145, 0.4);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 0 20px rgba(11, 61, 145, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.retro-panel-orange {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 53, 0.15) 0%,
+    rgba(10, 14, 26, 0.9) 100%
+  );
+  border: 1px solid rgba(255, 107, 53, 0.4);
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+}
+
+/* Blinking indicator */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+.blink-slow {
+  animation: blink 2s infinite;
+}
+
+/* Pulse glow animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+    opacity: 0.9;
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Flip clock animation */
+@keyframes flip-top {
+  0% { transform: rotateX(0deg); }
+  100% { transform: rotateX(-90deg); }
+}
+
+@keyframes flip-bottom {
+  0% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0deg); }
+}
+
+/* Status indicator styles */
+.status-nominal {
+  color: var(--mission-green);
+}
+
+.status-warning {
+  color: var(--amber);
+}
+
+.status-critical {
+  color: var(--retro-orange);
+}
+
+/* Gauge styling */
+.gauge-track {
+  stroke: rgba(255, 255, 255, 0.1);
+  fill: none;
+}
+
+.gauge-fill {
+  fill: none;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-in-out;
+}
+
+/* Star animation */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.star {
+  animation: twinkle var(--duration, 3s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Shooting star animation */
+@keyframes shoot {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(300px) translateY(300px);
+    opacity: 0;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(11, 61, 145, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(11, 61, 145, 0.4);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(11, 61, 145, 0.6);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(11, 61, 145, 0.4) rgba(11, 61, 145, 0.1);
+}
+
+/* Themed scrollbar utility class */
+.themed-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.themed-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.themed-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(11, 61, 145, 0.3);
+  border-radius: 2px;
+}
+
+.themed-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(11, 61, 145, 0.5);
+}
+
+/* Custom button styles */
+.retro-button {
+  background: linear-gradient(
+    180deg,
+    rgba(11, 61, 145, 0.8) 0%,
+    rgba(11, 61, 145, 0.6) 100%
+  );
+  border: 1px solid rgba(11, 61, 145, 0.8);
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-family: var(--font-space-mono), monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s ease;
+}
+
+.retro-button:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(11, 61, 145, 1) 0%,
+    rgba(11, 61, 145, 0.8) 100%
+  );
+  box-shadow: 0 0 15px rgba(11, 61, 145, 0.5);
+}
+
+.retro-button-orange {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 107, 53, 0.8) 0%,
+    rgba(255, 107, 53, 0.6) 100%
+  );
+  border: 1px solid rgba(255, 107, 53, 0.8);
+}
+
+.retro-button-orange:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 107, 53, 1) 0%,
+    rgba(255, 107, 53, 0.8) 100%
+  );
+  box-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+}
+
+.retro-button-green {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 255, 65, 0.3) 0%,
+    rgba(0, 255, 65, 0.15) 100%
+  );
+  border: 1px solid rgba(0, 255, 65, 0.5);
+  color: #00FF41;
+}
+
+.retro-button-green:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 255, 65, 0.4) 0%,
+    rgba(0, 255, 65, 0.25) 100%
+  );
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+}
+
+.retro-button-red {
+  background: linear-gradient(
+    180deg,
+    rgba(239, 68, 68, 0.3) 0%,
+    rgba(239, 68, 68, 0.15) 100%
+  );
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #ef4444;
+}
+
+.retro-button-red:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(239, 68, 68, 0.4) 0%,
+    rgba(239, 68, 68, 0.25) 100%
+  );
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+/* Input styling */
+.retro-input {
+  background: rgba(10, 14, 26, 0.8);
+  border: 1px solid rgba(11, 61, 145, 0.4);
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-family: var(--font-space-mono), monospace;
+  color: var(--off-white);
+  transition: all 0.2s ease;
+}
+
+.retro-input:focus {
+  outline: none;
+  border-color: var(--nasa-blue);
+  box-shadow: 0 0 10px rgba(11, 61, 145, 0.3);
+}
+
+.retro-input::placeholder {
+  color: rgba(232, 232, 232, 0.4);
+}
+
+/* Leaflet map dark theme overrides */
+.leaflet-container {
+  background: var(--space-navy) !important;
+}
+
+.leaflet-tile-pane {
+  filter: brightness(0.6) saturate(0.8) hue-rotate(180deg) invert(1);
+}
+
+.leaflet-control-zoom a {
+  background: rgba(10, 14, 26, 0.9) !important;
+  color: var(--off-white) !important;
+  border-color: var(--nasa-blue) !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(10, 14, 26, 0.8) !important;
+  color: rgba(232, 232, 232, 0.5) !important;
+}
+
+/* Grid pattern background */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(11, 61, 145, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 61, 145, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}

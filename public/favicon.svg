@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <g transform="translate(16,16) rotate(45) translate(-16,-16)">
+    <!-- Body -->
+    <path d="M16 2 C16 2 9 10 9 18 C9 22 12 25 16 25 C20 25 23 22 23 18 C23 10 16 2 16 2 Z" fill="#E8E8E8"/>
+    <!-- Nose cone -->
+    <path d="M16 2 C16 2 12 9 12 12 C13.5 10.5 16 8 16 8 C16 8 18.5 10.5 20 12 C20 9 16 2 16 2 Z" fill="#FF6B35"/>
+    <!-- Window -->
+    <circle cx="16" cy="16" r="2.5" fill="#0B3D91"/>
+    <!-- Left fin -->
+    <path d="M9 20 L5 26 L9 23 Z" fill="#FF6B35"/>
+    <!-- Right fin -->
+    <path d="M23 20 L27 26 L23 23 Z" fill="#FF6B35"/>
+    <!-- Exhaust -->
+    <path d="M13 25 L11.5 29.5 L16 27 L20.5 29.5 L19 25" fill="#FFB800"/>
+  </g>
+</svg>
