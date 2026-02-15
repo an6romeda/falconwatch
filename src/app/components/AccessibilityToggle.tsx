@@ -56,7 +56,7 @@ export default function AccessibilityToggle() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute right-0 top-full mt-2 w-64 bg-space-navy/95 border border-nasa-blue/40 rounded-lg shadow-xl z-50 backdrop-blur-sm"
+              className="absolute right-0 top-full mt-2 w-64 max-w-[calc(100vw-1rem)] bg-space-navy/95 border border-nasa-blue/40 rounded-lg shadow-xl z-50 backdrop-blur-sm"
               role="menu"
               aria-label="Accessibility options"
             >

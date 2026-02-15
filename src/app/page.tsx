@@ -12,6 +12,9 @@ import EmailSubscribe from "./components/EmailSubscribe";
 import AccessibilityToggle from "./components/AccessibilityToggle";
 import { type ViewingLocation } from "./components/LocationSettings";
 import { initVisibilityStorage } from "../lib/clientVisibility";
+import { calculateSolarElevation } from "../lib/visibility";
+import { getMaxVisibleRadiusKm, detectRocketType, getLightingCondition, getLightingLabel } from "../lib/visibilityRadius";
+import { getLaunchSite } from "../lib/launchSites";
 
 // SWR fetcher with error handling
 const fetcher = (url: string) =>
@@ -78,6 +81,7 @@ interface VisibilityData {
       solarElevation: number;
       distanceKm: number;
       surfaceVisibilityKm: number;
+      rocketType: string;
     };
   };
   fatalBlocker?: string | null;
@@ -192,6 +196,37 @@ export default function Home() {
     setSelectedLaunchIndex(index + 1);
   };
 
+  // Compute dynamic visibility radius for the map
+  const visibilityRadius = (() => {
+    // Prefer API-provided solar elevation + rocket type when available
+    if (visibility?.factors?.rawData) {
+      const { solarElevation, rocketType } = visibility.factors.rawData;
+      return getMaxVisibleRadiusKm(solarElevation, rocketType);
+    }
+    // Fallback: compute from launch time + site coords + mission name
+    if (selectedLaunch) {
+      const site = getLaunchSite(selectedSiteId);
+      if (site) {
+        const solarEl = calculateSolarElevation(site.lat, site.lon, selectedLaunch.date_unix);
+        const rocketType = detectRocketType(selectedLaunch.name);
+        return getMaxVisibleRadiusKm(solarEl, rocketType);
+      }
+    }
+    return 800; // default fallback (twilight F9)
+  })();
+
+  const visibilityLightingLabel = (() => {
+    const solarEl = visibility?.factors?.rawData?.solarElevation
+      ?? (selectedLaunch
+        ? calculateSolarElevation(
+            getLaunchSite(selectedSiteId)?.lat ?? 34.63,
+            getLaunchSite(selectedSiteId)?.lon ?? -120.61,
+            selectedLaunch.date_unix
+          )
+        : -9);
+    return getLightingLabel(getLightingCondition(solarEl));
+  })();
+
   // Format current time for header (user's local timezone)
   const formattedTime = currentTime.toLocaleTimeString("en-US", {
     hour: "2-digit",
@@ -285,6 +320,8 @@ export default function Home() {
                 viewingLocation={viewingLocation}
                 onLocationChange={handleLocationChange}
                 siteId={selectedSiteId}
+                visibilityRadiusKm={visibilityRadius}
+                radiusLabel={`~${Math.round(visibilityRadius * 0.621371)}mi ${visibilityLightingLabel} range`}
               />
             </motion.section>
 
@@ -305,7 +342,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="h-80"
+              className="lg:h-80"
             >
               <LaunchCarousel
                 launches={allLaunches.slice(1, 6)}
@@ -320,7 +357,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="h-80"
+              className="lg:h-80"
             >
               <EmailSubscribe />
             </motion.section>
@@ -328,19 +365,17 @@ export default function Home() {
         </main>
 
         {/* Footer */}
-        <footer className="border-t border-nasa-blue/20 mt-12 py-8">
-          <div className="max-w-6xl mx-auto px-4 space-y-3">
-            <div className="grid grid-cols-3 items-center text-sm text-off-white/50">
-              <div className="flex items-center gap-4">
-                <a href="https://thespacedevs.com/" target="_blank" rel="noopener noreferrer" className="hover:text-off-white transition-colors">The Space Devs</a>
-                <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" className="hover:text-off-white transition-colors">Open-Meteo</a>
-              </div>
-              <p className="text-center">&copy; {new Date().getFullYear()} FalconWatch</p>
-              <p className="text-right">Not affiliated with SpaceX</p>
-            </div>
-            <div className="text-center">
-              <a href="/privacy" className="text-sm text-off-white/50 hover:text-off-white transition-colors">Privacy Statement</a>
-            </div>
+        <footer className="border-t border-nasa-blue/20 mt-12 py-6">
+          <div className="max-w-6xl mx-auto px-4 text-center text-sm text-off-white/40 space-y-2">
+            <p>&copy; {new Date().getFullYear()} FalconWatch &middot; Not affiliated with SpaceX</p>
+            <p className="text-xs">
+              Data from{" "}
+              <a href="https://thespacedevs.com/" target="_blank" rel="noopener noreferrer" className="text-off-white/50 hover:text-off-white transition-colors">The Space Devs</a>
+              {" & "}
+              <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" className="text-off-white/50 hover:text-off-white transition-colors">Open-Meteo</a>
+              {" · "}
+              <a href="/privacy" className="text-off-white/50 hover:text-off-white transition-colors">Privacy</a>
+            </p>
           </div>
         </footer>
       </div>

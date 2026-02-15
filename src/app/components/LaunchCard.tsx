@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback } from "react";
 import { motion } from "framer-motion";
 import { DataRow, LEDText } from "./RetroDisplay";
 
@@ -77,6 +78,38 @@ export default function LaunchCard({ mission, lastRefresh }: LaunchCardProps) {
   const payload = mission.payloadData?.[0];
   const customers = payload?.customers?.join(", ") || "SpaceX";
 
+  const handleAddToCalendar = useCallback(() => {
+    const start = launchDate;
+    const end = new Date(start.getTime() + 30 * 60 * 1000); // 30 min event
+    const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+    const site = mission.siteId ? SITE_NAMES[mission.siteId] || "" : "";
+    const lines = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//FalconWatch//EN",
+      "BEGIN:VEVENT",
+      `DTSTART:${fmt(start)}`,
+      `DTEND:${fmt(end)}`,
+      `SUMMARY:${mission.name}`,
+      `DESCRIPTION:SpaceX launch${site ? ` from ${site}` : ""}. Track visibility at falconwatch.app`,
+      site ? `LOCATION:${site}` : "",
+      "BEGIN:VALARM",
+      "TRIGGER:-PT30M",
+      "ACTION:DISPLAY",
+      "DESCRIPTION:Launch in 30 minutes",
+      "END:VALARM",
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].filter(Boolean).join("\r\n");
+    const blob = new Blob([lines], { type: "text/calendar;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${mission.name.replace(/[^a-zA-Z0-9]/g, "-")}.ics`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [launchDate, mission.name, mission.siteId]);
+
   const formatLastRefresh = () => {
     if (!lastRefresh) return null;
     const now = new Date();
@@ -115,9 +148,9 @@ export default function LaunchCard({ mission, lastRefresh }: LaunchCardProps) {
       </div>
 
       {/* Mission patch and name */}
-      <div className="flex items-start gap-4 mb-4">
+      <div className="flex items-start gap-3 sm:gap-4 mb-4">
         {mission.links.patch.small ? (
-          <div className="w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-space-navy/50 p-2">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 rounded-lg overflow-hidden bg-space-navy/50 p-2">
             <img
               src={mission.links.patch.small}
               alt={`${mission.name} patch`}
@@ -125,7 +158,7 @@ export default function LaunchCard({ mission, lastRefresh }: LaunchCardProps) {
             />
           </div>
         ) : (
-          <div className="w-16 h-16 flex-shrink-0 rounded-lg bg-nasa-blue/20 flex items-center justify-center">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 rounded-lg bg-nasa-blue/20 flex items-center justify-center">
             <span className="text-2xl font-display text-nasa-blue">
               {mission.name.charAt(0)}
             </span>
@@ -193,9 +226,9 @@ export default function LaunchCard({ mission, lastRefresh }: LaunchCardProps) {
         </div>
       )}
 
-      {/* Webcast link */}
-      {mission.links.webcast && (
-        <div className="mt-4 pt-4 border-t border-nasa-blue/20">
+      {/* Action links */}
+      <div className="mt-4 pt-4 border-t border-nasa-blue/20 flex flex-wrap items-center gap-4">
+        {mission.links.webcast && (
           <a
             href={mission.links.webcast}
             target="_blank"
@@ -210,11 +243,22 @@ export default function LaunchCard({ mission, lastRefresh }: LaunchCardProps) {
               <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
             </svg>
             <span className="font-mono text-sm uppercase tracking-wider">
-              Watch Webcast
+              Webcast
             </span>
           </a>
-        </div>
-      )}
+        )}
+        <button
+          onClick={handleAddToCalendar}
+          className="inline-flex items-center gap-2 text-nasa-blue hover:text-nasa-blue/80 transition-colors cursor-pointer"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span className="font-mono text-sm uppercase tracking-wider">
+            Add to Calendar
+          </span>
+        </button>
+      </div>
 
       {/* Last refresh */}
       {lastRefresh && (

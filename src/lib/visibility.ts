@@ -33,7 +33,7 @@ const EARTH_RADIUS_KM = 6371;
 //   Roughly half of twilight distances based on observer reports.
 // - Day: Bright sky washes out plume contrast. 100-150mi practical max for informed observer.
 //   Community consensus: easily visible <50mi, possible with effort 50-125mi.
-const VISIBILITY_CONFIG = {
+export const VISIBILITY_CONFIG = {
   maxVisibleDistance: {
     // Twilight conditions (optimal - "space jellyfish" effect)
     twilight: {
@@ -210,7 +210,7 @@ export interface VisibilityResult {
  * Calculate solar elevation angle at a given location and time
  * Returns elevation in degrees (-90 to +90)
  */
-function calculateSolarElevation(
+export function calculateSolarElevation(
   lat: number,
   lon: number,
   timestamp: number

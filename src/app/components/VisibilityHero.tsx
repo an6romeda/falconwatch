@@ -681,7 +681,7 @@ export default function VisibilityHero({
       transition={{ duration: 0.5 }}
     >
       {/* Main Hero Section */}
-      <div className="p-6 md:p-8 lg:p-10">
+      <div className="p-4 sm:p-6 md:p-8 lg:p-10">
         {/* Top Row: Mission Name + Status + Location */}
         {/* Mission name and location */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
@@ -710,7 +710,7 @@ export default function VisibilityHero({
         </div>
 
         {/* THE VERDICT - Most Important Element */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-6 mb-6 lg:mb-8">
           {/* Left: Can You See It? */}
           <div className="flex-1">
             <p className="text-xs uppercase tracking-widest text-off-white/40 mb-2">
@@ -718,7 +718,7 @@ export default function VisibilityHero({
             </p>
             <div className="flex items-baseline gap-4">
               <motion.h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold leading-none"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-none"
                 style={{
                   color: verdictColor,
                   fontFamily: "var(--font-orbitron)",
@@ -772,11 +772,11 @@ export default function VisibilityHero({
             )}
 
             {optimalWindow?.startFormatted && optimalWindow?.endFormatted && !fatalBlocker && (
-              <div className="bg-space-navy/50 rounded-lg px-4 py-3 border border-mission-green/30 inline-block">
+              <div className="bg-space-navy/50 rounded-lg px-3 py-2 sm:px-4 sm:py-3 border border-mission-green/30 inline-block max-w-full">
                 <p className="text-xs uppercase tracking-widest text-mission-green/70 mb-1">
                   Look for it
                 </p>
-                <p className="font-mono text-xl text-mission-green font-bold">
+                <p className="font-mono text-lg sm:text-xl text-mission-green font-bold">
                   {optimalWindow.startFormatted} - {optimalWindow.endFormatted}
                 </p>
               </div>

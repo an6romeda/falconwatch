@@ -96,6 +96,8 @@ interface TrajectoryMapProps {
   viewingLocation?: ViewingLocation | null;
   onLocationChange?: (location: ViewingLocation) => void;
   siteId?: string;
+  visibilityRadiusKm?: number;
+  radiusLabel?: string;
 }
 
 export default function TrajectoryMap({
@@ -103,6 +105,8 @@ export default function TrajectoryMap({
   viewingLocation,
   onLocationChange,
   siteId = "vandenberg",
+  visibilityRadiusKm = 800,
+  radiusLabel,
 }: TrajectoryMapProps) {
   const [isClient, setIsClient] = useState(false);
   const [L, setL] = useState<typeof import("leaflet") | null>(null);
@@ -220,10 +224,8 @@ export default function TrajectoryMap({
     iconAnchor: [10, 10],
   });
 
-  // Visibility radius (in meters) - ~500 miles = ~805km = 804672 meters
-  // Based on documented Falcon 9 twilight sightings (e.g. SAOCOM-1A from Phoenix ~485mi)
-  // This represents the "visible under good conditions" range for twilight F9 launches
-  const visibilityRadius = 804672;
+  // Convert km prop to meters for Leaflet Circle
+  const visibilityRadius = visibilityRadiusKm * 1000;
 
   // Calculate map center - use launch site if no viewing location
   const centerLat = viewingLocation
@@ -255,7 +257,7 @@ export default function TrajectoryMap({
           </div>
           <div className="flex items-center gap-1">
             <div className="w-3 h-3 rounded-full border border-dashed border-nasa-blue bg-nasa-blue/10" />
-            <span className="text-off-white/50 hidden sm:inline">~500mi twilight range</span>
+            <span className="text-off-white/50 hidden sm:inline">{radiusLabel || `~${Math.round(visibilityRadiusKm * 0.621371)}mi range`}</span>
             <span className="text-off-white/50 sm:hidden">Range</span>
           </div>
         </div>
@@ -396,7 +398,7 @@ export default function TrajectoryMap({
         </div>
         {/* Range explanation - hidden on mobile, shown on larger screens */}
         <p className="text-xs text-off-white/30 hidden sm:block">
-          Blue circle shows ~500mi twilight range for Falcon 9 (based on documented sightings). Actual range varies by lighting, rocket type, and conditions.
+          Blue circle shows estimated max visibility range based on lighting conditions and rocket type. Actual range varies with weather and atmospheric clarity.
         </p>
       </div>
     </motion.div>

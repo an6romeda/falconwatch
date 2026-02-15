@@ -43,8 +43,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: "FalconWatch | Unofficial SpaceX Launch Tracker",
     description:
-      "Track SpaceX launches from Vandenberg SFB and calculate visibility from your location.",
+      "Track SpaceX launches from Vandenberg, Cape Canaveral, and Starbase. Real-time countdown, weather data, and visibility predictions from your location.",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FalconWatch | Unofficial SpaceX Launch Tracker",
+    description:
+      "Track SpaceX launches from Vandenberg, Cape Canaveral, and Starbase. Real-time countdown, weather data, and visibility predictions from your location.",
   },
 };
 
