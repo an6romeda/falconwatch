@@ -147,7 +147,7 @@ export default function EmailSubscribe({ compact = false }: EmailSubscribeProps)
               </div>
               <p className="text-[10px] text-off-white/30 text-center">
                 By clicking Subscribe, you agree to our{" "}
-                <a href="/privacy" className="text-nasa-blue/60 hover:text-nasa-blue transition-colors">
+                <a href="/privacy" className="text-off-white/60 underline hover:text-off-white transition-colors">
                   Privacy Statement
                 </a>.
               </p>
@@ -285,7 +285,7 @@ export default function EmailSubscribe({ compact = false }: EmailSubscribeProps)
 
             <p className="text-xs text-off-white/40 text-center">
               By clicking Subscribe, you agree to our{" "}
-              <a href="/privacy" className="text-nasa-blue/60 hover:text-nasa-blue transition-colors">
+              <a href="/privacy" className="text-off-white/60 underline hover:text-off-white transition-colors">
                 Privacy Statement
               </a>. Unsubscribe anytime.
             </p>
