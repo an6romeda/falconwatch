@@ -79,6 +79,7 @@ function generateEmailHtml(
   siteId: string
 ): string {
   const unsubscribeUrl = `${baseUrl}/api/alerts/unsubscribe?token=${unsubscribeToken}`;
+  const preferencesUrl = `${baseUrl}/api/alerts/preferences?token=${unsubscribeToken}`;
   const site = LAUNCH_SITES[siteId];
   const siteName = site?.name || "Unknown Site";
   const viewingDirection = SITE_VIEWING_TIPS[siteId] || "unobstructed view of the sky";
@@ -139,8 +140,12 @@ function generateEmailHtml(
               <p style="margin: 0 0 10px; color: #E8E8E8; font-size: 12px; opacity: 0.5;">
                 You received this email because you subscribed to FalconWatch launch alerts.
               </p>
+              <a href="${preferencesUrl}" style="color: #0B3D91; font-size: 12px; text-decoration: underline;">
+                Manage Preferences
+              </a>
+              <span style="color: #E8E8E8; opacity: 0.3; margin: 0 8px;">|</span>
               <a href="${unsubscribeUrl}" style="color: #0B3D91; font-size: 12px; text-decoration: underline;">
-                Unsubscribe from all alerts
+                Unsubscribe
               </a>
             </td>
           </tr>

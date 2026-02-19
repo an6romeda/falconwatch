@@ -18,10 +18,10 @@ A real-time launch tracking application for SpaceX missions from Vandenberg, Cap
   - Viewing angle and bearing
   - Atmospheric clarity
   - Rocket plume visibility
-- **Interactive Map** - Trajectory visualization with your viewing location
+- **Visibility Map** - See if you're within viewing distance, with your location plotted
 - **Location Options** - GPS, city search, or ZIP code lookup
 - **Weather Data** - Current conditions at the launch site and your location
-- **Email Alerts** - Get notified 24 hours before launches (encrypted storage)
+- **Email Alerts** - Get notified 24 hours before launches with per-site preferences (encrypted storage)
 - **Accessibility** - High contrast mode, reduced motion, keyboard navigation
 
 ## Tech Stack

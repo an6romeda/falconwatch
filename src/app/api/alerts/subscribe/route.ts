@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { createSubscription, isSubscribed } from "@/lib/supabaseStore";
+import { createSubscription, isSubscribed, updateSubscriptionSites } from "@/lib/supabaseStore";
 import { checkRateLimit } from "@/lib/rateLimit";
 
 // Validation schema
@@ -36,20 +36,32 @@ export async function POST(request: NextRequest) {
 
     const { email, reminderMinutes, launchId, siteIds } = result.data;
 
-    // Check if already subscribed
+    // Check if already subscribed — update preferences instead of rejecting
     const alreadySubscribed = await isSubscribed(email);
     if (alreadySubscribed) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "This email is already subscribed to launch alerts",
-        },
-        { status: 409 }
-      );
+      if (siteIds) {
+        const updated = await updateSubscriptionSites(email, siteIds);
+        if (!updated) {
+          return NextResponse.json(
+            { success: false, error: "Failed to update preferences. Please try again." },
+            { status: 500 }
+          );
+        }
+        return NextResponse.json({
+          success: true,
+          updated: true,
+          message: "Preferences updated",
+        });
+      }
+      return NextResponse.json({
+        success: true,
+        updated: true,
+        message: "Already subscribed",
+      });
     }
 
     // Create subscription
-    const { success, unsubscribeToken } = await createSubscription(
+    const { success } = await createSubscription(
       email,
       reminderMinutes,
       launchId || null,
@@ -68,8 +80,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
+      updated: false,
       message: "Successfully subscribed to launch alerts",
-      // Don't expose unsubscribe token in response - it's sent via email
     });
   } catch (error) {
     console.error("Subscribe error:", error);

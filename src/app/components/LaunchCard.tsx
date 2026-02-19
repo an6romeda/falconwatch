@@ -62,16 +62,15 @@ export default function LaunchCard({ mission, lastRefresh }: LaunchCardProps) {
 
   // Format date in user's local timezone
   const launchDate = new Date(mission.date_utc);
-  const localDate = launchDate.toLocaleDateString("en-US", {
+  const localDate = launchDate.toLocaleDateString(undefined, {
     weekday: "short",
     month: "short",
     day: "numeric",
     year: "numeric",
   });
-  const localTime = launchDate.toLocaleTimeString("en-US", {
+  const localTime = launchDate.toLocaleTimeString(undefined, {
     hour: "numeric",
     minute: "2-digit",
-    hour12: true,
     timeZoneName: "short",
   });
 

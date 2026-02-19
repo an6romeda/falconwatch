@@ -44,7 +44,7 @@ export interface LaunchSite {
 const vandenberg: LaunchSite = {
   id: "vandenberg",
   name: "Vandenberg SFB",
-  shortName: "VAFB",
+  shortName: "Vandenberg",
   lat: 34.6321,
   lon: -120.6107,
   elevation: 112,
@@ -91,7 +91,7 @@ const vandenberg: LaunchSite = {
 const capeCanaveral: LaunchSite = {
   id: "cape-canaveral",
   name: "Cape Canaveral SFS",
-  shortName: "CCAFS",
+  shortName: "Cape Canaveral",
   lat: 28.5620,
   lon: -80.5772,
   elevation: 3,
@@ -140,7 +140,7 @@ const capeCanaveral: LaunchSite = {
 const bocaChica: LaunchSite = {
   id: "boca-chica",
   name: "Starbase",
-  shortName: "BC",
+  shortName: "Starbase",
   lat: 25.9972,
   lon: -97.1571,
   elevation: 2,

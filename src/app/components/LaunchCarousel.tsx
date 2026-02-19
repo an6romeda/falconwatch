@@ -191,7 +191,7 @@ export default function LaunchCarousel({ launches, loading = false, vertical = f
                   )}
                   <div className="flex items-center gap-2 mt-0.5">
                     <span className="text-xs text-off-white/50">
-                      {launchDate.toLocaleDateString("en-US", {
+                      {launchDate.toLocaleDateString(undefined, {
                         month: "short",
                         day: "numeric",
                       })}
@@ -235,7 +235,7 @@ export default function LaunchCarousel({ launches, loading = false, vertical = f
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="text-xs text-off-white/50">
-                          {launchDate.toLocaleDateString("en-US", {
+                          {launchDate.toLocaleDateString(undefined, {
                             month: "short",
                             day: "numeric",
                           })}
@@ -254,7 +254,7 @@ export default function LaunchCarousel({ launches, loading = false, vertical = f
                       </span>
                     </div>
                     <p className="text-xs text-off-white/40 mt-1">
-                      {launchDate.toLocaleTimeString("en-US", {
+                      {launchDate.toLocaleTimeString(undefined, {
                         hour: "numeric",
                         minute: "2-digit",
                         timeZoneName: "short",

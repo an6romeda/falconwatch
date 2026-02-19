@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import StarField from "./components/StarField";
 import LaunchCard from "./components/LaunchCard";
 import VisibilityHero from "./components/VisibilityHero";
-import TrajectoryMap from "./components/TrajectoryMap";
+import VisibilityMap from "./components/VisibilityMap";
 import LaunchCarousel from "./components/LaunchCarousel";
 import EmailSubscribe from "./components/EmailSubscribe";
 import AccessibilityToggle from "./components/AccessibilityToggle";
@@ -228,14 +228,14 @@ export default function Home() {
   })();
 
   // Format current time for header (user's local timezone)
-  const formattedTime = currentTime.toLocaleTimeString("en-US", {
+  const formattedTime = currentTime.toLocaleTimeString(undefined, {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
     hour12: false,
   });
 
-  const formattedDate = currentTime.toLocaleDateString("en-US", {
+  const formattedDate = currentTime.toLocaleDateString(undefined, {
     weekday: "short",
     year: "numeric",
     month: "short",
@@ -315,13 +315,13 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <TrajectoryMap
+              <VisibilityMap
                 visibilityPercentage={visibility?.percentage || 50}
                 viewingLocation={viewingLocation}
                 onLocationChange={handleLocationChange}
                 siteId={selectedSiteId}
                 visibilityRadiusKm={visibilityRadius}
-                radiusLabel={`~${Math.round(visibilityRadius * 0.621371)}mi ${visibilityLightingLabel} range`}
+                radiusLabel={`~${Math.round(visibilityRadius * 0.621371)}mi ${visibilityLightingLabel} visibility`}
               />
             </motion.section>
 

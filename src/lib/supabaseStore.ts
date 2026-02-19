@@ -237,3 +237,86 @@ export async function updateSubscription(
     return false;
   }
 }
+
+/**
+ * Update subscription site preferences by email
+ */
+export async function updateSubscriptionSites(
+  email: string,
+  siteIds: string[]
+): Promise<boolean> {
+  try {
+    const emailHash = await hashEmail(email);
+
+    const { data, error } = await supabase
+      .from("email_subscriptions")
+      .update({ site_ids: JSON.stringify(siteIds) })
+      .eq("email_hash", emailHash)
+      .eq("is_active", true)
+      .select();
+
+    if (error) {
+      console.error("Failed to update subscription sites:", error);
+      return false;
+    }
+
+    return data && data.length > 0;
+  } catch (error) {
+    console.error("Failed to update subscription sites:", error);
+    return false;
+  }
+}
+
+/**
+ * Get subscription by unsubscribe token (for manage preferences page)
+ */
+export async function getSubscriptionByToken(
+  token: string
+): Promise<{ siteIds: string[] | null; reminderMinutes: number } | null> {
+  try {
+    const { data, error } = await supabase
+      .from("email_subscriptions")
+      .select("site_ids, reminder_minutes")
+      .eq("unsubscribe_token", token)
+      .eq("is_active", true)
+      .single();
+
+    if (error || !data) return null;
+
+    const row = data as Pick<EmailSubscription, "site_ids" | "reminder_minutes">;
+    return {
+      siteIds: row.site_ids ? JSON.parse(row.site_ids) : null,
+      reminderMinutes: row.reminder_minutes,
+    };
+  } catch (error) {
+    console.error("Failed to get subscription by token:", error);
+    return null;
+  }
+}
+
+/**
+ * Update subscription site preferences by unsubscribe token
+ */
+export async function updateSubscriptionByToken(
+  token: string,
+  siteIds: string[]
+): Promise<boolean> {
+  try {
+    const { data, error } = await supabase
+      .from("email_subscriptions")
+      .update({ site_ids: JSON.stringify(siteIds) })
+      .eq("unsubscribe_token", token)
+      .eq("is_active", true)
+      .select();
+
+    if (error) {
+      console.error("Failed to update subscription by token:", error);
+      return false;
+    }
+
+    return data && data.length > 0;
+  } catch (error) {
+    console.error("Failed to update subscription by token:", error);
+    return false;
+  }
+}

@@ -789,7 +789,7 @@ export default function VisibilityHero({
         {viewingLocation && (
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xs text-off-white/40">
-              Weather at {viewingLocation.name} on {launchDate ? launchDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'launch day'}
+              Weather at {viewingLocation.name} on {launchDate ? launchDate.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' }) : 'launch day'}
             </span>
             <div className="flex-1 h-px bg-off-white/10" />
           </div>

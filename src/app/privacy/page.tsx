@@ -80,14 +80,17 @@ export default function PrivacyPage() {
             <p>
               If you subscribe, your email is encrypted (AES-256-GCM) before
               storage and only decrypted to send you a launch notification
-              through <strong>Resend</strong>. When you unsubscribe, your data
-              is permanently deleted.
+              through <strong>Resend</strong>. You can update which launch
+              sites you receive alerts for at any time via the &ldquo;Manage
+              Preferences&rdquo; link in any alert email, or by re-subscribing
+              with the same email. When you unsubscribe, your data is
+              permanently deleted.
             </p>
           </section>
 
           <section>
             <h2 className="text-sm font-mono uppercase tracking-widest text-off-white mb-3">
-              The trajectory map
+              The visibility map
             </h2>
             <p>
               Map tiles load directly from{" "}
@@ -127,7 +130,7 @@ export default function PrivacyPage() {
               <li>
                 <strong>OpenStreetMap</strong> &mdash; receives coordinates
                 through our server for reverse geocoding; map tiles load
-                directly from your browser to render the trajectory map
+                directly from your browser to render the visibility map
               </li>
               <li>
                 <strong>The Space Devs</strong> &mdash; provides launch

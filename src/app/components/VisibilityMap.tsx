@@ -91,7 +91,7 @@ interface ViewingLocation {
   lon: number;
 }
 
-interface TrajectoryMapProps {
+interface VisibilityMapProps {
   visibilityPercentage?: number;
   viewingLocation?: ViewingLocation | null;
   onLocationChange?: (location: ViewingLocation) => void;
@@ -100,14 +100,14 @@ interface TrajectoryMapProps {
   radiusLabel?: string;
 }
 
-export default function TrajectoryMap({
+export default function VisibilityMap({
   visibilityPercentage = 50,
   viewingLocation,
   onLocationChange,
   siteId = "vandenberg",
   visibilityRadiusKm = 800,
   radiusLabel,
-}: TrajectoryMapProps) {
+}: VisibilityMapProps) {
   const [isClient, setIsClient] = useState(false);
   const [L, setL] = useState<typeof import("leaflet") | null>(null);
 
@@ -161,7 +161,7 @@ export default function TrajectoryMap({
       <div className="retro-panel p-4 h-full">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-mono text-sm uppercase tracking-widest text-off-white">
-            Trajectory Map
+            Visibility Map
           </h3>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-nasa-blue blink" />
@@ -244,7 +244,7 @@ export default function TrajectoryMap({
     >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
         <h3 className="font-mono text-sm uppercase tracking-widest text-off-white">
-          Trajectory Map
+          Visibility Map
         </h3>
         <div className="flex items-center flex-wrap gap-2 sm:gap-3 text-xs">
           <div className="flex items-center gap-1">
@@ -257,8 +257,8 @@ export default function TrajectoryMap({
           </div>
           <div className="flex items-center gap-1">
             <div className="w-3 h-3 rounded-full border border-dashed border-nasa-blue bg-nasa-blue/10" />
-            <span className="text-off-white/50 hidden sm:inline">{radiusLabel || `~${Math.round(visibilityRadiusKm * 0.621371)}mi range`}</span>
-            <span className="text-off-white/50 sm:hidden">Range</span>
+            <span className="text-off-white/50 hidden sm:inline">{radiusLabel || `~${Math.round(visibilityRadiusKm * 0.621371)}mi visibility`}</span>
+            <span className="text-off-white/50 sm:hidden">Visibility</span>
           </div>
         </div>
       </div>
@@ -267,8 +267,8 @@ export default function TrajectoryMap({
         className="rounded-lg overflow-hidden border border-nasa-blue/30 flex-1 min-h-56"
         role="img"
         aria-label={viewingLocation
-          ? `Interactive map showing launch trajectory from ${siteConfig.name} and your viewing location at ${viewingLocation.name}, ${distance} miles away`
-          : `Interactive map showing launch trajectory from ${siteConfig.name}`}
+          ? `Interactive map showing launch visibility from ${siteConfig.name} and your viewing location at ${viewingLocation.name}, ${distance} miles away`
+          : `Interactive map showing launch visibility from ${siteConfig.name}`}
       >
         <MapContainer
           center={[centerLat, centerLng]}
@@ -392,13 +392,13 @@ export default function TrajectoryMap({
           </div>
           {distance && (
             <span className="text-xs text-off-white/40">
-              {distance >= 80 && distance <= 400 ? "Optimal range" : distance < 80 ? "Close range" : "Extended range"}
+              {distance >= 80 && distance <= 400 ? "Optimal viewing distance" : distance < 80 ? "Very close" : "Far — may be difficult to see"}
             </span>
           )}
         </div>
-        {/* Range explanation - hidden on mobile, shown on larger screens */}
+        {/* Visibility explanation - hidden on mobile, shown on larger screens */}
         <p className="text-xs text-off-white/30 hidden sm:block">
-          Blue circle shows estimated max visibility range based on lighting conditions and rocket type. Actual range varies with weather and atmospheric clarity.
+          Blue circle shows estimated max viewing distance based on lighting conditions and rocket type. Actual visibility varies with weather and atmospheric clarity.
         </p>
       </div>
     </motion.div>

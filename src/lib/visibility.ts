@@ -689,11 +689,10 @@ function calculateObstructionScore(
 // ============================================================================
 
 function formatTime(date: Date, timezone: string = "America/New_York"): string {
-  return date.toLocaleTimeString("en-US", {
+  return date.toLocaleTimeString(undefined, {
     hour: "numeric",
     minute: "2-digit",
     timeZone: timezone,
-    hour12: true,
   });
 }
 
@@ -887,7 +886,7 @@ export function calculateVisibility(
     fatalBlocker = cloudResult.reason;
   } else if (distanceScore === 0 && distanceKm > maxVisibleDistance) {
     const lightingLabel = lightingCondition === "twilight" ? "twilight" : lightingCondition === "night" ? "night" : "daytime";
-    fatalBlocker = `Location is ${Math.round(distanceKm * 0.621371)} miles from ${site.name}, beyond ${lightingLabel} visible range of ~${Math.round(maxVisibleDistance * 0.621371)} miles`;
+    fatalBlocker = `Location is ${Math.round(distanceKm * 0.621371)} miles from ${site.name}, beyond the ~${Math.round(maxVisibleDistance * 0.621371)}-mile ${lightingLabel} visibility limit`;
   } else if (sunScore < 0.1) {
     fatalBlocker = "Midday sun makes rocket visibility very difficult - daytime launches only visible within ~125 miles";
   }
@@ -977,9 +976,9 @@ export function calculateVisibility(
 
   // Distance-based recommendations with site-aware direction
   if (distanceMiles <= 200) {
-    recommendations.push(`At ${distanceMiles} miles, you're in close range. The rocket should be clearly visible rising from the horizon.`);
+    recommendations.push(`At ${distanceMiles} miles, you're very close. The rocket should be clearly visible rising from the horizon.`);
   } else if (distanceMiles <= 500) {
-    recommendations.push(`At ${distanceMiles} miles, you're in optimal viewing range. ${directionText}.`);
+    recommendations.push(`At ${distanceMiles} miles, you're at an optimal viewing distance. ${directionText}.`);
   } else if (distanceScore > 0) {
     recommendations.push(`At ${distanceMiles} miles, binoculars or a camera with zoom will help spot the rocket.`);
   }

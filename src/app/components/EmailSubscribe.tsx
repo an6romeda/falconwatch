@@ -17,6 +17,7 @@ export default function EmailSubscribe({ compact = false }: EmailSubscribeProps)
   const [email, setEmail] = useState("");
   const [selectedSites, setSelectedSites] = useState<string[]>([]);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [wasUpdated, setWasUpdated] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const toggleSite = (siteId: string) => {
@@ -65,6 +66,7 @@ export default function EmailSubscribe({ compact = false }: EmailSubscribeProps)
 
       if (response.ok && data.success) {
         setStatus("success");
+        setWasUpdated(!!data.updated);
         setEmail("");
       } else {
         setStatus("error");
@@ -99,7 +101,7 @@ export default function EmailSubscribe({ compact = false }: EmailSubscribeProps)
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-sm">Subscribed!</span>
+                <span className="text-sm">{wasUpdated ? "Preferences Updated!" : "Subscribed!"}</span>
               </div>
             </motion.div>
           ) : (
@@ -190,7 +192,9 @@ export default function EmailSubscribe({ compact = false }: EmailSubscribeProps)
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h4 className="text-lg font-mono text-mission-green mb-2">Successfully Subscribed!</h4>
+            <h4 className="text-lg font-mono text-mission-green mb-2">
+              {wasUpdated ? "Preferences Updated!" : "Successfully Subscribed!"}
+            </h4>
             <p className="text-sm text-off-white/60">
               You&apos;ll receive an email before launches from{" "}
               {selectedSites
@@ -200,10 +204,10 @@ export default function EmailSubscribe({ compact = false }: EmailSubscribeProps)
               .
             </p>
             <button
-              onClick={() => setStatus("idle")}
+              onClick={() => { setStatus("idle"); setWasUpdated(false); }}
               className="mt-4 text-sm text-nasa-blue hover:text-nasa-blue/80 transition-colors"
             >
-              Subscribe another email
+              {wasUpdated ? "Update again" : "Subscribe another email"}
             </button>
           </motion.div>
         ) : (
