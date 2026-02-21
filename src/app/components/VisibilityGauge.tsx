@@ -81,10 +81,10 @@ const FACTORS = {
       </svg>
     ),
     getStatus: (score: number, distMiles: number) => {
-      if (score >= 0.7) return { status: `${distMiles} mi - Optimal`, color: "text-mission-green" };
-      if (score >= 0.3) return { status: `${distMiles} mi`, color: "text-amber" };
-      if (score > 0) return { status: `${distMiles} mi - Far`, color: "text-red-400" };
-      return { status: "Too far", color: "text-red-400" };
+      if (score >= 0.5) return { status: `${distMiles} mi`, color: "text-mission-green" };
+      if (score >= 0.15) return { status: `${distMiles} mi`, color: "text-amber" };
+      if (score > 0) return { status: `${distMiles} mi — edge`, color: "text-red-400" };
+      return { status: "Out of range", color: "text-red-400" };
     },
   },
   clarity: {
@@ -136,7 +136,7 @@ export default function VisibilityGauge({
   }, [percentage]);
 
   const getColor = (pct: number) => {
-    if (pct >= 70) return "#00FF41";
+    if (pct >= 75) return "#00FF41";
     if (pct >= 50) return "#FFB800";
     if (pct >= 30) return "#FF6B35";
     return "#ff4444";
@@ -145,9 +145,9 @@ export default function VisibilityGauge({
   const getRatingLabel = (r: string) => {
     switch (r) {
       case "excellent": return "Excellent";
-      case "good": return "Good";
-      case "fair": return "Fair";
-      default: return "Poor";
+      case "good": return "Visible";
+      case "fair": return "Challenging";
+      default: return "Unlikely";
     }
   };
 
@@ -253,13 +253,13 @@ export default function VisibilityGauge({
             </p>
           ) : (
             <p className="text-sm text-off-white/70 leading-snug">
-              {percentage >= 70
-                ? "Great conditions for viewing!"
+              {percentage >= 75
+                ? "You should have a clear view from here."
                 : percentage >= 50
-                ? "Decent chance to spot the launch"
+                ? "You should be able to spot it under these conditions."
                 : percentage >= 30
-                ? "Challenging but possible"
-                : "Unlikely to see the launch"}
+                ? "It'll be tough, but worth stepping outside to look."
+                : "Conditions aren't great for viewing from here."}
             </p>
           )}
         </div>

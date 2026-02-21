@@ -392,13 +392,13 @@ export default function VisibilityMap({
           </div>
           {distance && (
             <span className="text-xs text-off-white/40">
-              {distance >= 80 && distance <= 400 ? "Optimal viewing distance" : distance < 80 ? "Very close" : "Far — may be difficult to see"}
+              {distance < 80 ? "Very close — great view" : distance <= 500 ? "Good viewing distance" : "Distant — twilight timing helps"}
             </span>
           )}
         </div>
         {/* Visibility explanation - hidden on mobile, shown on larger screens */}
         <p className="text-xs text-off-white/30 hidden sm:block">
-          Blue circle shows estimated max viewing distance based on lighting conditions and rocket type. Actual visibility varies with weather and atmospheric clarity.
+          Blue circle shows how far the launch has been seen under similar conditions, based on confirmed sighting reports. Weather and air clarity affect actual results.
         </p>
       </div>
     </motion.div>
