@@ -25,11 +25,15 @@ export default function PrivacyPage() {
         >
           PRIVACY STATEMENT
         </h1>
-
         <div className="space-y-8 text-off-white/80 text-[15px] leading-relaxed">
+          <p className="text-off-white/30">
+            Last updated February 2026
+          </p>
+
           <p>
-            FalconWatch exists to track rockets, not you. Here&apos;s what
-            happens with data when you use the site.
+            FalconWatch exists to track rockets, not you. We don&apos;t use
+            cookies, analytics, or tracking, and we never sell or share your
+            data. Here&apos;s what we do collect and why.
           </p>
 
           <section>
@@ -48,15 +52,9 @@ export default function PrivacyPage() {
               Location searches
             </h2>
             <p>
-              If you search for a city or ZIP code, that query is sent through
-              our server to a geocoding service (<strong>Open-Meteo</strong> for
-              city names, <strong>Zippopotam.us</strong> for ZIP codes) so we can
-              find the coordinates. If you use &ldquo;use my current
-              location,&rdquo; your browser asks permission first, then sends the
-              coordinates through our server to{" "}
-              <strong>OpenStreetMap Nominatim</strong> to resolve a city name.
-              We proxy these requests so those services see the query but not
-              your IP address. We don&apos;t store any searches.
+              If you search for a location or share your current position,
+              the query is sent through our server to a geocoding service to
+              find your coordinates. We don&apos;t store your searches.
             </p>
           </section>
 
@@ -67,9 +65,8 @@ export default function PrivacyPage() {
             <p>
               If you share a viewing location, those coordinates are sent
               through our server to <strong>Open-Meteo</strong> to pull weather
-              data for your visibility prediction. The coordinates are not stored
-              but may appear briefly in server logs maintained by our
-              host (Vercel).
+              data for your visibility prediction. We don&apos;t store
+              your coordinates.
             </p>
           </section>
 
@@ -78,34 +75,12 @@ export default function PrivacyPage() {
               Email alerts
             </h2>
             <p>
-              If you subscribe, your email is encrypted (AES-256-GCM) before
-              storage and only decrypted to send you a launch notification
-              through <strong>Resend</strong>. You can update which launch
-              sites you receive alerts for at any time via the &ldquo;Manage
-              Preferences&rdquo; link in any alert email, or by re-subscribing
-              with the same email. When you unsubscribe, your data is
-              permanently deleted.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-sm font-mono uppercase tracking-widest text-off-white mb-3">
-              The visibility map
-            </h2>
-            <p>
-              Map tiles load directly from{" "}
-              <strong>OpenStreetMap</strong> tile servers to render the map. On
-              first visit, this shows the launch site area. If you&apos;ve
-              shared a viewing location, the map adjusts to show both areas.
-              See{" "}
-              <a
-                href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-nasa-blue hover:text-nasa-blue/80 transition-colors"
-              >
-                OpenStreetMap&apos;s privacy policy
-              </a>.
+              If you subscribe, we collect your email address to send you
+              launch alerts. Your email is stored encrypted in our database.
+              You can update which launch sites you receive alerts for at any
+              time via the &ldquo;Manage Preferences&rdquo; link in any alert
+              email, or by re-subscribing with the same email. When you
+              unsubscribe, your data is permanently deleted from our database.
             </p>
           </section>
 
@@ -114,8 +89,7 @@ export default function PrivacyPage() {
               Third-party services
             </h2>
             <p>
-              Every external service FalconWatch talks to, and why. All
-              connections use HTTPS.
+              External services FalconWatch uses and what data they receive.
             </p>
             <ul className="list-disc list-inside mt-3 space-y-2 text-off-white/70">
               <li>
@@ -133,12 +107,8 @@ export default function PrivacyPage() {
                 directly from your browser to render the visibility map
               </li>
               <li>
-                <strong>The Space Devs</strong> &mdash; provides launch
-                schedule data; no user data is sent
-              </li>
-              <li>
-                <strong>Resend</strong> &mdash; receives your email address
-                at the moment of sending a launch alert
+                <strong>Resend</strong> &mdash; delivers launch alert emails
+                and stores your email address
               </li>
               <li>
                 <strong>Supabase</strong> &mdash; hosts the database where
@@ -151,7 +121,7 @@ export default function PrivacyPage() {
             </ul>
           </section>
 
-          <p className="text-sm text-off-white/50 pt-2">
+          <p className="text-off-white/50 pt-2">
             Questions about this statement? Reach out on{" "}
             <a
               href="https://github.com/an6romeda/falconwatch"
@@ -161,10 +131,6 @@ export default function PrivacyPage() {
             >
               GitHub
             </a>.
-          </p>
-
-          <p className="text-xs text-off-white/30 pt-4">
-            Last updated February 2026
           </p>
         </div>
       </div>

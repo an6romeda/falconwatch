@@ -97,33 +97,6 @@ export default function AccessibilityToggle() {
                   </button>
                 </div>
 
-                {/* Font Size */}
-                <div>
-                  <label className="block text-sm text-off-white mb-2">
-                    Font Size
-                  </label>
-                  <div className="flex gap-2" role="radiogroup" aria-label="Font size">
-                    {(["normal", "large", "x-large"] as const).map((size) => (
-                      <button
-                        key={size}
-                        role="radio"
-                        aria-checked={settings.fontSize === size}
-                        onClick={() => setFontSize(size)}
-                        className={`
-                          flex-1 px-3 py-2 text-xs rounded border transition-colors
-                          ${
-                            settings.fontSize === size
-                              ? "border-retro-orange bg-retro-orange/20 text-off-white"
-                              : "border-nasa-blue/30 text-off-white/60 hover:border-nasa-blue/50"
-                          }
-                        `}
-                      >
-                        {size === "normal" ? "A" : size === "large" ? "A+" : "A++"}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
                 {/* Reduced Motion Toggle */}
                 <div className="flex items-center justify-between">
                   <label
@@ -153,12 +126,33 @@ export default function AccessibilityToggle() {
                     </span>
                   </button>
                 </div>
-              </div>
 
-              <div className="p-3 border-t border-nasa-blue/30">
-                <p className="text-xs text-off-white/40">
-                  Settings are saved locally
-                </p>
+                {/* Font Size */}
+                <div>
+                  <label className="block text-sm text-off-white mb-2">
+                    Font Size
+                  </label>
+                  <div className="flex gap-2" role="radiogroup" aria-label="Font size">
+                    {(["normal", "large", "x-large"] as const).map((size) => (
+                      <button
+                        key={size}
+                        role="radio"
+                        aria-checked={settings.fontSize === size}
+                        onClick={() => setFontSize(size)}
+                        className={`
+                          flex-1 px-3 py-2 text-xs rounded border transition-colors
+                          ${
+                            settings.fontSize === size
+                              ? "border-retro-orange bg-retro-orange/20 text-off-white"
+                              : "border-nasa-blue/30 text-off-white/60 hover:border-nasa-blue/50"
+                          }
+                        `}
+                      >
+                        {size === "normal" ? "A" : size === "large" ? "A+" : "A++"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
             </motion.div>
           </>
