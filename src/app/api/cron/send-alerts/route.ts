@@ -220,7 +220,7 @@ export async function GET(request: NextRequest) {
         if (isWithinReminderWindow(launch.date_unix, subscription.reminderMinutes)) {
           try {
             const { error: sendError } = await getResend().emails.send({
-              from: "Falconwatch <alerts@falconwatch.app>",
+              from: "FalconWatch <alerts@falconwatch.app>",
               to: subscription.email,
               subject: `Launch Tomorrow from ${siteName}: ${launch.name}`,
               html: generateEmailHtml(
