@@ -141,6 +141,7 @@ function FactorPill({
 }
 
 // What You'll See - visual description component
+// Descriptions account for BOTH score and distance to set honest expectations
 function WhatYoullSee({
   percentage,
   timingStatus,
@@ -155,47 +156,65 @@ function WhatYoullSee({
   if (fatalBlocker) {
     return (
       <p className="text-off-white/60 text-sm">
-        Unfortunately, conditions aren&apos;t favorable for viewing. {fatalBlocker}
+        From your location, this one will be very hard to see. {fatalBlocker}
       </p>
     );
   }
 
   const isTwilight = timingStatus === "Twilight";
   const isNight = timingStatus === "Night";
-  const isDawn = timingStatus === "Dawn/Dusk";
   const isClose = distanceMiles < 200;
-  const isMedium = distanceMiles >= 200 && distanceMiles < 400;
+  const isMedium = distanceMiles >= 200 && distanceMiles <= 400;
+  const isFar = distanceMiles > 400;
 
   return (
     <div className="space-y-3 text-sm text-off-white/80">
-      {/* Main visual description */}
+      {/* Main visual description — distance-aware */}
       <p>
-        {percentage >= 70 ? (
+        {percentage >= 75 ? (
           <>
-            <span className="text-mission-green font-medium">Spectacular view expected!</span>{" "}
+            <span className="text-mission-green font-medium">
+              {isClose ? "Unmissable." : isMedium ? "Great view expected." : "Visible from your distance."}
+            </span>{" "}
             {isTwilight ? (
-              "During twilight, you'll see the rocket's exhaust plume brilliantly illuminated against the darkening sky—often called a 'jellyfish' effect as the plume expands in the upper atmosphere."
+              isClose ? (
+                "During twilight, the exhaust plume will glow brilliantly against the dark sky — the famous \"jellyfish\" effect. You'll see it expand in real time as it climbs."
+              ) : isFar ? (
+                "The twilight timing is what makes this work from your distance. Look for a bright, expanding glow low on the horizon — the sunlit plume against the dark sky is what you'll spot first."
+              ) : (
+                "During twilight, you'll see the exhaust plume glowing against the dark sky — the \"jellyfish\" effect. It should be clearly visible to the naked eye."
+              )
             ) : isNight ? (
-              "Against the dark night sky, the rocket will appear as a bright, moving point of light with a visible exhaust trail stretching behind it."
+              isClose ? (
+                "Against the dark sky, you'll see a bright moving point of light with a visible exhaust trail behind it."
+              ) : (
+                "Look for a bright moving light against the dark sky with a faint trail. Binoculars will bring out more detail."
+              )
             ) : (
               "Look for a bright ascending light with a visible exhaust plume trailing behind it."
             )}
           </>
-        ) : percentage >= 40 ? (
+        ) : percentage >= 50 ? (
           <>
-            <span className="text-amber font-medium">Good chance to spot it.</span>{" "}
+            <span className="text-amber font-medium">
+              {isClose ? "You should be able to spot it." : "Worth watching for."}
+            </span>{" "}
             {isClose ? (
-              "At your distance, you may see the rocket as a bright moving object. Best viewed with binoculars."
+              "The rocket should appear as a bright, moving object above the horizon."
             ) : isMedium ? (
-              "You'll likely see it as a small bright dot moving across the sky. Binoculars recommended."
+              "Look for a small bright light moving upward. Binoculars can help, but naked-eye viewing is usually possible in these conditions."
             ) : (
-              "The rocket may appear as a small moving light on the horizon. Use binoculars or a camera with zoom."
+              "The rocket will appear small but visible near the horizon. Binoculars will help — give your eyes a minute to adjust to the dark first."
             )}
           </>
         ) : (
           <>
-            <span className="text-off-white/60">Challenging viewing conditions.</span>{" "}
-            With some luck and good positioning, you might catch a glimpse of the rocket as a faint moving light.
+            <span className="text-off-white/60">Tough but not impossible.</span>{" "}
+            {isFar ? (
+              "At your distance, you'll need to know exactly where to look. Find the darkest spot you can with a clear horizon."
+            ) : (
+              "With good positioning and a clear horizon, you may catch the rocket as a faint moving light."
+            )}
           </>
         )}
       </p>
@@ -206,7 +225,7 @@ function WhatYoullSee({
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <span>
-          The rocket typically becomes visible 2-3 minutes after liftoff and remains visible for 3-5 minutes as it ascends.
+          The rocket becomes visible about 1-2 minutes after liftoff and stays visible for 3-6 minutes as it ascends.
         </span>
       </div>
     </div>
@@ -474,22 +493,26 @@ export default function VisibilityHero({
     return () => clearInterval(interval);
   }, [percentage, locationSet]);
 
-  // Determine the verdict - neutral, professional language
+  // Determine the verdict — direct answer to "Can I see it?"
   const verdictText = fatalBlocker
-    ? "Limited"
-    : percentage >= 70
-      ? "Favorable"
-      : percentage >= 40
-        ? "Possible"
-        : "Unlikely";
+    ? "Unlikely"
+    : percentage >= 75
+      ? "Excellent"
+      : percentage >= 50
+        ? "Visible"
+        : percentage >= 30
+          ? "Possible"
+          : "Unlikely";
 
   const verdictColor = fatalBlocker
     ? "#ff4444"
-    : percentage >= 70
+    : percentage >= 75
       ? "#00FF41"
-      : percentage >= 40
+      : percentage >= 50
         ? "#FFB800"
-        : "#ff4444";
+        : percentage >= 30
+          ? "#FF6B35"
+          : "#ff4444";
 
   // Get factor data
   const subScores = factors?.subScores || { cloud: 0.5, sun: 0.5, distance: 0.5, clarity: 0.5 };
@@ -738,7 +761,7 @@ export default function VisibilityHero({
                   {displayPercentage}%
                 </span>
                 <span className="text-xs text-off-white/40 uppercase tracking-wider">
-                  {rating}
+                  viewing score
                 </span>
               </div>
             </div>
@@ -751,11 +774,13 @@ export default function VisibilityHero({
             )}
 
             {/* Conditions summary */}
-            {!fatalBlocker && percentage >= 40 && (
+            {!fatalBlocker && percentage >= 30 && (
               <p className="mt-3 text-off-white/60 text-sm max-w-md">
-                {percentage >= 70
-                  ? "Conditions are favorable for visibility from your location."
-                  : "Moderate conditions. Clear skies and an unobstructed horizon will improve viewing."}
+                {percentage >= 75
+                  ? "Conditions look great from your location."
+                  : percentage >= 50
+                    ? "Conditions are decent — a clear view of the horizon will help."
+                    : "Conditions are tough, but worth stepping outside to check."}
               </p>
             )}
           </div>
