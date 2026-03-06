@@ -42,4 +42,4 @@ Weather data provided by [Open-Meteo](https://open-meteo.com/).
 
 ## License
 
-All rights reserved.
+[MIT](LICENSE)
