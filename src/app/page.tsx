@@ -367,7 +367,7 @@ export default function Home() {
         {/* Footer */}
         <footer className="border-t border-nasa-blue/20 mt-12 py-6">
           <div className="max-w-6xl mx-auto px-4 text-center text-sm text-off-white/40 space-y-2">
-            <p>&copy; 2026 Dan Meador &middot; Not affiliated with SpaceX</p>
+            <p>&copy; FalconWatch &middot; Not affiliated with SpaceX</p>
             <p className="text-xs">
               Data from{" "}
               <a href="https://thespacedevs.com/" target="_blank" rel="noopener noreferrer" className="text-off-white/50 hover:text-off-white transition-colors">The Space Devs</a>
