@@ -1,28 +1,17 @@
 # FalconWatch
 
-**Unofficial SpaceX Launch Tracker**
-
-A real-time launch tracking application for SpaceX missions from Vandenberg, Cape Canaveral, and Starbase. Calculate visibility from your location, get weather conditions, and never miss a launch.
-
-![Next.js](https://img.shields.io/badge/Next.js-16-black)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+SpaceX launch visibility tracker for Vandenberg, Cape Canaveral, and Starbase. Enter any city to get visibility predictions based on trajectory, weather, and time of day.
 
 ## Features
 
-- **Live Countdown** - Real-time countdown to the next launch from any tracked site
-- **Multi-Site Tracking** - Vandenberg, Cape Canaveral, and Starbase launches
-- **Visibility Calculator** - 8-factor algorithm calculates your chances of seeing the launch based on:
-  - Cloud cover and weather conditions
-  - Solar elevation (twilight launches are best)
-  - Distance from launch site
-  - Viewing angle and bearing
-  - Atmospheric clarity
-  - Rocket plume visibility
-- **Visibility Map** - See if you're within viewing distance, with your location plotted
-- **Location Options** - GPS, city search, or ZIP code lookup
-- **Weather Data** - Current conditions at the launch site and your location
-- **Email Alerts** - Get notified 24 hours before launches with per-site preferences (encrypted storage)
-- **Accessibility** - High contrast mode, reduced motion, keyboard navigation
+- **Multi-Site Tracking** — Vandenberg, Cape Canaveral, and Starbase launches
+- **Visibility Calculator** — 8-factor algorithm based on cloud cover, solar elevation, distance, viewing angle, atmospheric clarity, and plume visibility
+- **Visibility Map** — See if you are within viewing distance with your location plotted
+- **Live Countdown** — Real-time countdown to the next launch from any tracked site
+- **Location Options** — GPS, city search, or ZIP code lookup
+- **Weather Data** — Current conditions at the launch site and your location
+- **Email Alerts** — Get notified 24 hours before launches with per-site preferences
+- **Accessibility** — High contrast mode, reduced motion, keyboard navigation
 
 ## Tech Stack
 
@@ -35,10 +24,7 @@ A real-time launch tracking application for SpaceX missions from Vandenberg, Cap
 
 ## Disclaimer
 
-This is an unofficial, fan-made project. **Not affiliated with SpaceX.**
-
-Launch data provided by [The Space Devs](https://thespacedevs.com/).
-Weather data provided by [Open-Meteo](https://open-meteo.com/).
+This is an unofficial, fan-made project. Not affiliated with SpaceX. Launch data provided by [The Space Devs](https://thespacedevs.com/). Weather data provided by [Open-Meteo](https://open-meteo.com/).
 
 ## License
 
